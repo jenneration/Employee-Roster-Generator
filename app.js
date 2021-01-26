@@ -9,35 +9,64 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const { create } = require("domain");
+// const { create } = require("domain");
+
+const officeNumCk = /(?:\b|-)([0-9]{1,2}|100)\b/;
+const emailCk = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/;
+const idNumCk = /^[0-9]*$/;
 
 const teamMembers = [];
 
-console.log("Running"); //test
-
-
 
 function createManager() {
-    console.log("Hello company manager! Let's build your team roster."); // Add second line on a time interval and directly address the manager
+    console.log("Hello! Let's build a team roster!\n"); // Add second line on a time interval and directly address the manager
     inquirer.prompt([{
             type: "input",
-            message: "Please enter your name:",
-            name: "name"
+            message: "Please enter manager's name:",
+            name: "name",
+            validate: (name) => {
+                if (!name || name.length < 2) {
+                    console.log("\nPlease enter manager's name:");
+                } else {
+                    return true;
+                };
+            }
         },
         {
             type: "input",
             message: "Enter your i.d. number:",
             name: "id",
+            validate: (id) => {
+                if (!id || id.length === 0 || idNumCk.test(id) === false) {
+                    console.log("\nPlease enter manager's id number:");
+                } else {
+                    return true;
+                };
+            }
         },
         {
             type: "input",
             message: "Enter your email:",
             name: "email",
+            validate: (email) => {
+                if (emailCk.test(email)) {
+                    return true;
+                } else {
+                    console.log("\nPlease enter a valid email:");
+                };
+            }
         },
         {
             type: "input",
-            message: "What is your office number?",
-            name: "officeNumber"
+            message: "Enter manager's office number:",
+            name: "officeNumber",
+            validate: (officeNumber) => {
+                if (officeNumCk.test(officeNumber)) {
+                    return true;
+                } else {
+                    console.log("\nOffice numbers range from 1 - 100. **IF NO OFFICE NUMBER ENTER '1'.");
+                };
+            }
         }
     ]).then(function(answers) {
         const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
@@ -50,7 +79,7 @@ function createManager() {
 function createTeamMembers() {
     inquirer.prompt([{
         type: "list",
-        message: "Which team member will you add to your team roster?",
+        message: "Which team member is being added to the team roster?",
         choices: ["Engineer", "Intern", "Neither, I'm done."],
         name: "team"
     }]).then(function(answers) {
@@ -75,22 +104,50 @@ function createEngineer() {
     inquirer.prompt([{
             type: "input",
             message: "What is the engineer's name?",
-            name: "name"
+            name: "name",
+            validate: (name) => {
+                if (!name || name.length < 2) {
+                    console.log("\nPlease enter engineer's name:");
+                } else {
+                    return true;
+                };
+            }
         },
         {
             type: "input",
             message: "Enter engineer i.d. number:",
             name: "id",
+            validate: (id) => {
+                if (!id || id.length === 0 || idNumCk.test(id) === false) {
+                    console.log("\nPlease enter manager's id number:");
+                } else {
+                    return true;
+                };
+            }
         },
         {
             type: "input",
             message: "Enter engineer email:",
-            name: "email"
+            name: "email",
+            validate: (email) => {
+                if (emailCk.test(email)) {
+                    return true;
+                } else {
+                    console.log("\nPlease enter a engineer's email:");
+                };
+            }
         },
         {
             type: "input",
             message: "Enter engineer's GitHub username:",
-            name: "github"
+            name: "github",
+            validate: (github) => {
+                if (!github || github.length === 0) {
+                    console.log("\nPlease enter engineer's GitHub username:");
+                } else {
+                    return true;
+                };
+            }
         }
     ]).then(function(answers) {
         const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
@@ -105,22 +162,50 @@ function createIntern() {
     inquirer.prompt([{
             type: "input",
             message: "What is the intern's name?",
-            name: "name"
+            name: "name",
+            validate: (name) => {
+                if (!name || name.length < 2) {
+                    console.log("\nPlease enter manager's name:");
+                } else {
+                    return true;
+                };
+            }
         },
         {
             type: "input",
             message: "Enter intern i.d. number:",
             name: "id",
+            validate: (id) => {
+                if (!id || id.length === 0 || idNumCk.test(id) === false) {
+                    console.log("\nPlease enter manager's id number:");
+                } else {
+                    return true;
+                };
+            }
         },
         {
             type: "input",
             message: "Enter intern email:",
-            name: "email"
+            name: "email",
+            validate: (email) => {
+                if (emailCk.test(email)) {
+                    return true;
+                } else {
+                    console.log("\nPlease enter a valid email:");
+                };
+            }
         },
         {
             type: "input",
-            message: "Enter intern's school name:",
-            name: "school"
+            message: "Enter name of intern's school:",
+            name: "school",
+            validate: (school) => {
+                if (!school || school.length < 2) {
+                    console.log("\nPlease enter name of intern's school:");
+                } else {
+                    return true;
+                };
+            }
         }
     ]).then(function(answers) {
         const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
@@ -137,7 +222,7 @@ function renderTeamRoster() {
 
     fs.writeFile(outputPath, render(teamMembers), function(err) {
         if (err) throw err;
-        console.log("Employee Roster Generated!");
+        console.log("Your employee roster has been generated!");
     });
 };
 
