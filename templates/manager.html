@@ -1,12 +1,12 @@
-<div class="card employee-card mb-2 mx-2 alert-primary border-primary rounded" style="width: 300px">
-    <div class="card-header">
+<div class="card employee-card mb-2 mx-2 shadow p-3 mb-5 rounded" style="width: 350px">
+    <div class="card-header alert-primary border-primary">
         <h2 class="card-title">{{ name }}</h2>
         <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>{{ role }}</h3>
     </div>
     <div class="card-body text-dark">
         <ul class="list-group">
             <li class="list-group-item">ID: {{ id }}</li>
-            <li class="list-group-item">Email: <a href="mailto:{{ email }}">{{ email }}</a></li>
+            <li class="list-group-item">E: <a href="mailto:{{ email }}">{{ email }}</a></li>
             <li class="list-group-item">Office number: {{ officeNumber }}</li>
         </ul>
     </div>

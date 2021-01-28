@@ -11,9 +11,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const teamMembers = [];
 
+const validator = require("email-validator");
 //Regex variables for input validation
-const officeNumCk = /(?:\b|-)([0-9]{1,2}|100)\b/;
-const emailCk = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/;
+const officeNumCk = /^(100|[1-9][0-9]?)$/; //numbers only, 1 to 100
+//const emailCk = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/;
 const idNumCk = /^[0-9]*$/;
 
 //Initializing function that creates the team manager
@@ -48,7 +49,7 @@ function createManager() {
             message: "Enter your email:",
             name: "email",
             validate: (email) => {
-                if (emailCk.test(email)) {
+                if (validator.validate(email) === true) {
                     return true;
                 } else {
                     console.log("\nPlease enter a valid email:");
@@ -79,8 +80,8 @@ function createManager() {
 function createTeamMembers() {
     inquirer.prompt([{
         type: "list",
-        message: "Which team member is being added to the team roster?",
-        choices: ["Engineer", "Intern", "Neither, I'm done."],
+        message: "Would you like to add another member to the team roster?",
+        choices: ["Engineer", "Intern", "No I'm done."],
         name: "team"
     }]).then(function(answers) {
         switch (answers.team) {
@@ -90,7 +91,7 @@ function createTeamMembers() {
             case "Intern":
                 createIntern()
                 break;
-            case "Neither, I'm done.":
+            case "No, I'm done.":
                 renderTeamRoster()
                 break;
             default:
@@ -101,7 +102,7 @@ function createTeamMembers() {
 
 //Creates the Engineer(s) 
 function createEngineer() {
-    console.log("Please enter information about this engineer.");
+    console.log("\nPlease enter information about this engineer.");
     inquirer.prompt([{
             type: "input",
             message: "What is the engineer's name?",
@@ -131,7 +132,7 @@ function createEngineer() {
             message: "Enter engineer email:",
             name: "email",
             validate: (email) => {
-                if (emailCk.test(email)) {
+                if (validator.validate(email) === true) {
                     return true;
                 } else {
                     console.log("\nPlease enter a engineer's email:");
@@ -153,14 +154,14 @@ function createEngineer() {
     ]).then(function(answers) {
         const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
         teamMembers.push(engineer);
-        //console.log(teamMembers);
+        // console.log(teamMembers);
         createTeamMembers();
     });
 };
 
 //Creates the intern(s)
 function createIntern() {
-    console.log("Please enter information about this intern.")
+    console.log("\nPlease enter information about this intern.")
     inquirer.prompt([{
             type: "input",
             message: "What is the intern's name?",
@@ -190,7 +191,7 @@ function createIntern() {
             message: "Enter intern email:",
             name: "email",
             validate: (email) => {
-                if (emailCk.test(email)) {
+                if (validator.validate(email) === true) {
                     return true;
                 } else {
                     console.log("\nPlease enter a valid email:");
