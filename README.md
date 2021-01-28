@@ -14,7 +14,7 @@ This application was built with Node.js
 - Once prompts are completed, a styled html document will employee information that entered will be generated.
 
 ## Demo 
-![Roster Generator Demo](assets/teamgenerator.gif)
+![Roster Generator Demo](assets/teamgenerator.gif) ![html sample](assets/projectpic1.png) 
 
 [**See full demo here**](https://drive.google.com/file/d/1XHyrA9uS4870S0P0qtIxIo-L2CUuL39N/view)
 
