@@ -14,12 +14,11 @@ const teamMembers = [];
 const validator = require("email-validator");
 //Regex variables for input validation
 const officeNumCk = /^(100|[1-9][0-9]?)$/; //numbers only, 1 to 100
-//const emailCk = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/;
 const idNumCk = /^[0-9]*$/;
 
 //Initializing function that creates the team manager
 function createManager() {
-    console.log("Hello! Let's build a team roster!\n"); // Add second line on a time interval and directly address the manager
+    console.log("\nHello! Let's build a team roster!"); // Add second line on a time interval and directly address the manager
     inquirer.prompt([{
             type: "input",
             message: "Please enter manager's name:",
@@ -227,7 +226,7 @@ function renderTeamRoster() {
     //Calls the render function with teamMembers passed to write to an html file.
     fs.writeFile(outputPath, render(teamMembers), function(err) {
         if (err) throw err;
-        console.log("Your employee roster has been generated!");
+        console.log("\nYour employee roster has been generated!");
     });
 };
 
